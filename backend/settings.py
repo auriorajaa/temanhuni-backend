@@ -273,6 +273,7 @@ DJOSER = {
     "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": getenv("REDIRECT_URIS", "").split(","),
     "SERIALIZERS": {
         "user_create": "users.serializers.CreateUserSerializer",
+        "current_user": "users.serializers.CustomUserSerializer",
     },
 }
 
