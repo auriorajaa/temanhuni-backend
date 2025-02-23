@@ -48,6 +48,15 @@ ALLOWED_HOSTS = []
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+# # Update CSRF settings
+# CSRF_COOKIE_SAMESITE = "Lax"  # Sesuaikan dengan COOKIE_SAMESITE yang sudah ada
+# CSRF_COOKIE_HTTPONLY = False  # Penting: Set False agar JavaScript bisa membaca cookie
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:8080",
+#     "http://localhost:8000",
+#     "http://127.0.0.1:8000",
+# ]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -66,6 +75,7 @@ INSTALLED_APPS = [
     "ratings",
     "posts",
     # THRID PARTY
+    "corsheaders",
     "rest_framework",
     "django_countries",
     "phonenumber_field",
@@ -82,6 +92,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -225,7 +236,7 @@ COOKIE_SECURE = getenv("COOKIE_SECURE", "True") == "True"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("common.cookie_auth.CookieAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    "DEFAULT_PAGINATION_CLASS": ("rest_framework.pagination.PageNumberPagination",),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
     ],
@@ -243,8 +254,8 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "SIGNING_KEY": getenv("SIGNING_KEY"),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFREST_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFREST_TOKENS": True,
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
 }
